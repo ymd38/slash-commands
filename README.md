@@ -1,6 +1,6 @@
-# Windsurf Slash Commands
+# AI Agent Slash Commands
 
-AI コーディングエージェント（[Windsurf](https://codeium.com/windsurf)）を **シニアエンジニアリングパートナー** に変えるスラッシュコマンド集です。  
+AI コーディングエージェント（[Windsurf](https://codeium.com/windsurf) / [Claude Code](https://docs.anthropic.com/en/docs/claude-code)）を **シニアエンジニアリングパートナー** に変えるスラッシュコマンド集です。  
 仕様の明文化 → テスト生成 → 実行 → 分析 → 品質評価 → セキュリティ監査 までを一気通貫で回し、最小限の手作業でワールドクラスのソフトウェア品質を実現します。
 
 ---
@@ -96,19 +96,45 @@ npx playwright test
 
 ## 🛠 Setup
 
-使いたい `.md` ファイルをプロジェクトの `.windsurf/workflows/` ディレクトリにコピーするだけで完了です。
+### Windsurf
+
+使いたい `.md` ファイルをプロジェクトの `.windsurf/workflows/` ディレクトリにコピーします。
 
 ```
 your-project/
 └── .windsurf/
     └── workflows/
-        ├── spec.doc.md
-        ├── test.gen.md
-        ├── test.analytics.md
-        ├── software.evaluation.md
+        ├── spec-doc.md
+        ├── test-gen.md
+        ├── test-analytics.md
+        ├── software-evaluation.md
         ├── vulnerability-scan.md
         └── vulnerability-fix.md
 ```
+
+### Claude Code
+
+各 `.md` ファイルを `.claude/skills/<skill-name>/SKILL.md` としてコピーします。
+
+```
+your-project/
+└── .claude/
+    └── skills/
+        ├── spec-doc/
+        │   └── SKILL.md
+        ├── test-gen/
+        │   └── SKILL.md
+        ├── test-analytics/
+        │   └── SKILL.md
+        ├── software-evaluation/
+        │   └── SKILL.md
+        ├── vulnerability-scan/
+        │   └── SKILL.md
+        └── vulnerability-fix/
+            └── SKILL.md
+```
+
+> 各ファイルには YAML frontmatter（`description`）が含まれており、Windsurf・Claude Code の両方でスラッシュコマンドとして自動認識されます。
 
 > **Note**: `/vulnerability-scan` および `/vulnerability-fix` コマンドをフル活用するには、[Semgrep](https://semgrep.dev/) のインストールを推奨します。
 
