@@ -17,6 +17,7 @@ SKILLS=(
   "software-evaluation"
   "vulnerability-scan"
   "vulnerability-fix"
+  "report-to-issues"
 )
 
 # ── Colours ──────────────────────────────────

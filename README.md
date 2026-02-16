@@ -21,6 +21,13 @@ AI コーディングエージェント（[Windsurf](https://codeium.com/windsur
      │    4. Refine          │────▶│   5a. Scan          │────▶│   5b. Fix          │
      │ /software.evaluation  │     │ /vulnerability-scan  │     │ /vulnerability-fix  │
      └──────────────────────┘     └────────────────────┘     └────────────────────┘
+                                          │                            │
+                                          └──────────┬─────────────────┘
+                                                     ▼
+                                          ┌────────────────────────┐
+                                          │   6. Track              │
+                                          │ /report-to-issues       │
+                                          └────────────────────────┘
 ```
 
 ### 0. 📝 Document — `/spec.doc`
@@ -91,6 +98,20 @@ npx playwright test
 - **Usage**: `/vulnerability-fix`（スキャンレポートを提供または参照）
 - **Focus**: 重大度順の優先修正、セキュアコーディングパターンの適用、構造化コミットメッセージ
 - **Verification**: 修正後に Semgrep を再実行し、脆弱性の解消を確認
+
+### 6. 📋 Track — `/report-to-issues`
+
+各コマンドが出力したレポートを解析し、発見事項を **GitHub Issues** として登録します。重大な問題は自動登録、それ以外はユーザの確認を経て登録します。
+
+| 自動登録（強制） | ユーザ確認後に登録 |
+| :--- | :--- |
+| 脆弱性 Critical / High | 脆弱性 Medium / Low |
+| テスト失敗の Root Cause | Flaky テスト・カバレッジギャップ |
+| セキュリティスコア ≤ 4/10 | その他の低スコア項目 |
+
+- **Usage**: `/report-to-issues [path/to/report.md]`（レポートファイルまたはペースト入力）
+- **Prerequisite**: GitHub MCP Server が接続・設定済みであること
+- **Supported Reports**: `/vulnerability-scan`, `/test-analytics`, `/software-evaluation` の出力
 
 ---
 
@@ -169,7 +190,8 @@ your-project/
         ├── test-analytics.md
         ├── software-evaluation.md
         ├── vulnerability-scan.md
-        └── vulnerability-fix.md
+        ├── vulnerability-fix.md
+        └── report-to-issues.md
 ```
 
 #### Claude Code (Commands形式)
@@ -185,7 +207,8 @@ your-project/
         ├── test-analytics.md
         ├── software-evaluation.md
         ├── vulnerability-scan.md
-        └── vulnerability-fix.md
+        ├── vulnerability-fix.md
+        └── report-to-issues.md
 ```
 
 #### Claude Code (Agents形式)
@@ -206,13 +229,17 @@ your-project/
         │   └── SKILL.md
         ├── vulnerability-scan/
         │   └── SKILL.md
-        └── vulnerability-fix/
+        ├── vulnerability-fix/
+        │   └── SKILL.md
+        └── report-to-issues/
             └── SKILL.md
 ```
 
 </details>
 
 > **Note**: `/vulnerability-scan` および `/vulnerability-fix` コマンドをフル活用するには、[Semgrep](https://semgrep.dev/) のインストールを推奨します。
+>
+> **Note**: `/report-to-issues` コマンドを使用するには、GitHub MCP Server が接続・設定済みである必要があります。
 
 ---
 
